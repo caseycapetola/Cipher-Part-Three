@@ -163,7 +163,29 @@ public class CipherPartThree
 			}
 			else
 			{
+				shift = 1;
+				int index = 0;
+				boolean answer = false;
+				while(answer && shift<26)
+				{
+					lowerCipher[index] = alphabet[index+shift];
+					upperCipher[index] = upperAlphabet[index+shift];
+					
+					File myFile = new File(fileName);
+					Scanner inputFile = new Scanner(myFile);
+					PrintWriter outputFile = new PrintWriter(fileName.substring(0, fileName.length()-4) + "_DEC.txt");
+					
+					String encMess = "";
+					String decMess = "";
+					while(inputFile.hasNext())
+					{
+						encMess += inputFile.nextLine();
+						encMess += "\n";
+					}
+					
+				}
 				
+					
 			}
 			
 			outputFile.print(decMess);
