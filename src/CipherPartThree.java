@@ -60,6 +60,7 @@ public class CipherPartThree
 		char[] lowerCipher = new char[26];
 		char[] upperCipher = new char[26];
 		int shift = shiftAmount;
+		Scanner user = new Scanner(System.in);
 		
 		if(encrypt)
 		{
@@ -112,7 +113,7 @@ public class CipherPartThree
 			outputFile.print(messEnc);
 			outputFile.close();
 			inputFile.close();
-			
+			String result = "Result written to " + fileName.substring(0, fileName.length()-4) + "_ENC.txt";
 			return messEnc;
 		}
 		else if(!encrypt && !crack)
@@ -131,7 +132,7 @@ public class CipherPartThree
 			
 			File myFile = new File(fileName);
 			Scanner inputFile = new Scanner(myFile);
-			PrintWriter outputFile = new PrintWriter(fileName.substring(0, fileName.length()-4) + "_ENC.txt");
+			PrintWriter outputFile = new PrintWriter(fileName.substring(0, fileName.length()-4) + "_DEC.txt");
 			
 			String encMess = "";
 			String decMess = "";
@@ -161,20 +162,22 @@ public class CipherPartThree
 				else
 					decMess += encMess.charAt(i);
 			}
+			outputFile.print(decMess);
+			outputFile.close();
+			inputFile.close();
+			String result = "Result written to " + fileName.substring(0, fileName.length()-4) + "_DEC.txt";
+			return result;
+		}
 			else
 			{
 				shift = 1;
 				int index = 0;
 				boolean answer = false;
+				File myFile = new File(fileName);
+				Scanner inputFile = new Scanner(myFile);
+				PrintWriter outputFile = new PrintWriter(fileName.substring(0, fileName.length()-4) + "_DEC.txt");
 				while(answer && shift<26)
 				{
-					lowerCipher[index] = alphabet[index+shift];
-					upperCipher[index] = upperAlphabet[index+shift];
-					
-					File myFile = new File(fileName);
-					Scanner inputFile = new Scanner(myFile);
-					PrintWriter outputFile = new PrintWriter(fileName.substring(0, fileName.length()-4) + "_DEC.txt");
-					
 					String encMess = "";
 					String decMess = "";
 					while(inputFile.hasNext())
@@ -183,21 +186,65 @@ public class CipherPartThree
 						encMess += "\n";
 					}
 					
+					int q = 1;
+					boolean cont = true;
+					String response = "";
+					
+					while(cont)
+					{
+						decMess = "";
+						for(int i = 0; i<encMess.length(); i++)
+						{
+							if(isUpper(encMess.charAt(i)))
+							{
+								if(encMess.charAt(i) + q > 'Z')
+									decMess += (char) ('Z' - q);
+								else
+									decMess += (char) ('A' + q);
+							}
+							else if(isLower(encMess.charAt(i)))
+							{
+								if(encMess.charAt(i) + q > 'z')
+									decMess += (char) ('z' - q);
+								else
+									decMess += (char) ('a' + q);
+							}
+							else
+								decMess += encMess.charAt(i);
+						}
+						System.out.println(decMess);
+						System.out.print("Does this look correct? y/n? ");
+						response = user.nextLine();
+						while(!response.equals("y") && !response.equals("n"))
+						{
+							System.out.print("\nPlease enter y/n: ");
+							response = user.nextLine();
+						}
+						if(response.equals("n"))
+							cont = true;
+						else
+							cont = false;
+						q++;
+						
+					}
+					for(int w = 0; w < decMess.length(); w++)
+					{
+						if(decMess.charAt(w) == '\n')
+							outputFile.println();
+						else
+							outputFile.print(decMess.charAt(w));
+					}
 				}
 				
-					
+				outputFile.close();
+				inputFile.close();
+				String result = "Result written to " + fileName.substring(0, fileName.length()-4) + "_DEC.txt";
+				return result;
+				
 			}
-			
-			outputFile.print(decMess);
-			outputFile.close();
-			inputFile.close();
-			return decMess;
-			
-			
-			
-			
+				
 		}
-	}
+	
 	
 	public static boolean isLower(char c)
 	{
