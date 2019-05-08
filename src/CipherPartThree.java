@@ -104,22 +104,32 @@ public class CipherPartThree
 					while(mess.charAt(i) != upperAlphabet[index])
 						index++;
 					messEnc += upperCipher[index];
+					outputFile.print(upperCipher[index]);
 				}
 				else if(isLower(mess.charAt(i)))
 				{
 					while(mess.charAt(i) != alphabet[index])
 						index++;
 					messEnc += lowerCipher[index];
+					outputFile.print(lowerCipher[index]);
+				}
+				else if(mess.charAt(i) == '\n')
+				{
+					messEnc += 'n';
+					outputFile.println();
 				}
 				else
+				{
 					messEnc += mess.charAt(i);
+					outputFile.print(mess.charAt(i));
+				}
 			}
 			
-			outputFile.print(messEnc);
 			outputFile.close();
 			inputFile.close();
+			user.close();
 			String result = "Result written to " + fileName.substring(0, fileName.length()-4) + "_ENC.txt";
-			return messEnc;
+			return result;
 		}
 		else if(!encrypt && !endgame)
 		{
@@ -144,8 +154,7 @@ public class CipherPartThree
 			while(inputFile.hasNext())
 			{
 				encMess += inputFile.nextLine();
-				encMess += "\n";
-				
+				encMess += "\n";	
 			}
 			
 			int index = 0;
@@ -157,19 +166,29 @@ public class CipherPartThree
 					while(encMess.charAt(i) != upperCipher[index])
 						index++;
 					decMess += upperAlphabet[index];
+					outputFile.print(upperAlphabet[index]);
 				}
 				else if(isLower(encMess.charAt(i)))
 				{
 					while(encMess.charAt(i) != lowerCipher[index])
 						index++;
 					decMess += alphabet[index];
+					outputFile.print(alphabet[index]);
+				}
+				else if(encMess.charAt(i) == '\n')
+				{
+					decMess += '\n';
+					outputFile.println();
 				}
 				else
+				{
 					decMess += encMess.charAt(i);
+					outputFile.print(encMess.charAt(i));
+				}
 			}
-			outputFile.print(decMess);
 			outputFile.close();
 			inputFile.close();
+			user.close();
 			String result = "Result written to " + fileName.substring(0, fileName.length()-4) + "_DEC.txt";
 			return result;
 		}
@@ -238,11 +257,12 @@ public class CipherPartThree
 			
 			outputFile.close();
 			inputFile.close();
+			user.close();
 			String result = "Result written to " + fileName.substring(0, fileName.length()-4) + "_DEC.txt";
 			return result;
 			
 		}
-			
+		
 	}
 	
 	
