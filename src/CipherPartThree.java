@@ -65,7 +65,6 @@ public class CipherPartThree
 		char[] upperCipher = new char[26];
 		int shift = shiftAmount;
 		Scanner user = new Scanner(System.in);
-		boolean endgame = crack;
 		
 		if(encrypt)
 		{
@@ -131,7 +130,7 @@ public class CipherPartThree
 			String result = "Result written to " + fileName.substring(0, fileName.length()-4) + "_ENC.txt";
 			return result;
 		}
-		else if(!encrypt && !endgame)
+		else if(!encrypt && !crack)
 		{
 			for(int i = 0; i<lowerCipher.length;i++)
 			{
